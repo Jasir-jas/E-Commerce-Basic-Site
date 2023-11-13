@@ -1,0 +1,58 @@
+{% extends "ecommerce_app/main.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+            <a class="btn btn-outline-dark" href="{% url 'store' %}">&#8592; Continue Shopping</a>
+            <br>
+            <br>
+            <br>
+
+            <table class="table">
+                <tr>
+                    <th><strong>Items</strong> :3</th>
+                    <th><strong>Total</strong> <i class="fa-solid fa-indian-rupee-sign"> 2497</i></th>
+                    <th>
+                        <a class="btn btn-success" style="float: right;margin: 5px;"
+                            href="{% url 'checkout' %}">Check</a>
+                    </th>
+                </tr>
+            </table>
+
+        </div>
+
+        <br>
+
+        <div class="box-element">
+            <div class="cart-row">
+                <div style="flex: 2;"></div>
+                <div style="flex: 2;"><strong>Item</strong></div>
+                <div style="flex: 1;"><strong>price</strong></div>
+                <div style="flex: 1;"><strong>Quantity</strong></div>
+                <div style="flex: 1;"><strong>Total</strong></div>
+            </div>
+
+            <div class="cart-row">
+                <div style="flex: 2;">
+                    <img class="row-image" src="{% static "images/cart1.png" %}">
+                </div>
+                <div style="flex: 2;" class="fcart"><strong>product 1</strong></div>
+                <div style="flex: 1;" class="fcart"><i class="fa-solid fa-indian-rupee-sign"></i> 799</div>
+                <div style="flex: 1;">
+                    <p class="quantity">3</p>
+                    <div class="quantity">
+                        <i class="fa-solid fa-caret-up chg-quantity"></i><br>
+                        <i class="fa-solid fa-caret-down chg-quantity"></i>
+                        <!-- <img class="chg-quantity" src="{% static "images/down-arrow.png" %}"> -->
+                    </div>
+                </div>
+                <div style="flex: 1;" class="fcart"><i class="fa-solid fa-indian-rupee-sign"></i> 2497</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
