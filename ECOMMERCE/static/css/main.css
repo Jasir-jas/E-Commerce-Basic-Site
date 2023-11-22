@@ -90,12 +90,9 @@ h1,h2,h3,h4,h5,h6{
     width: 20px;
     cursor: pointer;
     display: block;
-    /* margin-top: -3px; */
+    margin-top: 5px;
     transition: .1s;
 }
-
-
-
 
 .chg-quantity:hover{
     opacity: .6;
