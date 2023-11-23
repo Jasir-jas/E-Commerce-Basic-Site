@@ -8,16 +8,24 @@ class Customer(models.Model):
     email = models.EmailField(max_length=200, null=True)
     
     def __str__(self):
-        return self.user
+        return self.name
     
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False,null=True,blank=True)
-    #image
+    image = models.ImageField(null=True,blank=True)
     
     def __str__(self):
         return self.name
+    
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url=''
+        return url
     
 class Order(models.Model):
     customer = models.ForeignKey(Customer,max_length=200,on_delete=models.SET_NULL, null=True,blank=True)
@@ -30,7 +38,7 @@ class Order(models.Model):
     
 class OrderItem(models.Model):
     product = models.ForeignKey(Product,max_length=200,on_delete=models.SET_NULL, null=True,blank=True)
-    order = models.ForeignKey(Order,max_length=200,on_delete=models.SET_NULL, null=True,blank=True)
+    order = models.ForeignKey(Order,max_length=200,default=0,on_delete=models.SET_NULL, null=True,blank=True)
     quantity = models.IntegerField(default=0, null=True,blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     
