@@ -13,8 +13,8 @@
 
             <table class="table">
                 <tr>
-                    <th><strong>Items</strong> :{{ order.get_item_total }}</th>
-                    <th><strong>Total</strong> <i class="fa-solid fa-indian-rupee-sign"> {{ order.get_cart_total | floatformat:2 }}</i></th>
+                    <th><strong>Items</strong> :{{ order.get_cart_items }}</th>
+                    <th><strong>Total</strong> <i class="fa-solid fa-indian-rupee-sign"> {{ order.get_cart_total | floatformat:2}}</i></th>
                     <th>
                         <a class="btn btn-success" style="float: right;margin: 5px;"
                             href="{% url 'checkout' %}">Check</a>

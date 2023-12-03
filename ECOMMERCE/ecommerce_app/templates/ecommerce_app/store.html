@@ -10,9 +10,16 @@
           
         <img class="thumbnail" src="{{ product.imageURL }}" alt="">
         <div class="box-element product">
-            <h6><strong>{{ product.name }}</strong></h6>
+            <h6><strong>{{ product.name }}</strong></h6><br>
             <hr>
-            <button class="btn btn-outline-secondary btn-add">Add to Cart</button>
+
+           <button type="button" data-product="{{ product.id }}" data-action="add" 
+            class="btn btn-outline-secondary add-btn update-cart">Add To Cart {{ product.id }}</button>
+
+            <!-- <button type="button" value="{{ product.id }}" id="add-cart"></button> -->
+            
+            
+
             <a class="btn btn-outline-success" href="">View</a>
             <p style="display: inline-block; margin-top: 20px; float: right;"><i class="fa-solid fa-indian-rupee-sign">
                     {{ product.price | floatformat:2 }}</i></p>
@@ -20,5 +27,6 @@
     </div>
     {% endfor %}
 </div>
+
 
 {% endblock content %}

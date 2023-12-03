@@ -69,12 +69,12 @@
                 </div>
 
                 <div style="flex: 2;">{{ item.product.name }}</div>
-                <div style="flex: 1;"><i class="fa-solid fa-indian-rupee-sign"></i> {{ item.product.price }}</div>
-                <div style="flex: 1;">x2 {{ item.quantity }}</div>
+                <div style="flex: 1;"><i class="fa-solid fa-indian-rupee-sign"></i> {{ item.product.price|floatformat:2 }}</div>
+                <div style="flex: 1;">{{ item.quantity }}</div>
             </div>
             {% endfor %}
-            <h5>Items :{{ order.get_item_total }}</h5>
-            <h5>Total : <i class="fa-solid fa-indian-rupee-sign"></i> {{ order.get_cart_total }}</h5>
+            <h5>Items :{{ order.get_cart_items }}</h5>
+            <h5>Total : <i class="fa-solid fa-indian-rupee-sign"></i> {{ order.get_cart_total|floatformat:2}}</h5>
 
 
         </div>

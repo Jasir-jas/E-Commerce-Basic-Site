@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from .models import * 
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+from json.decoder import JSONDecodeError
 
 # Create your views here.
 def store(request):
-    products = Product.objects.all()
-    
+    products = Product.objects.all()  
     context = {'products':products}
     return render(request,"ecommerce_app/store.html",context)
 
@@ -15,7 +18,7 @@ def cart(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total':0, 'get_items_total':0}
+        order = {'get_cart_items':0, 'get_cart_total':0}
     context = {'items':items,'order':order}
     return render(request,"ecommerce_app/cart.html",context)
 
@@ -26,6 +29,33 @@ def checkout(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total':0, 'get_items_total':0}
+        order = {'get_cart_items':0, 'get_cart_total':0}
     context = {'items':items,'order':order}
     return render(request,"ecommerce_app/checkout.html",context)
+
+@csrf_exempt
+def updateItems(request):
+    data = json.loads(request.body)
+    print(data)
+    productId = data['productId']
+    print('productId:',productId)
+    action = data['action']
+    print('action:',action)
+    
+    
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order,created = Order.objects.get_or_create(customer = customer, completed=False)
+    orderItem,created= OrderItem.objects.get_or_create(order = order, product = product)
+    
+    if action == 'add':
+        orderItem.quantity= (orderItem.quantity + 1)
+    elif action == 'remove':
+        orderItem.quantity= (orderItem.quantity - 1)
+    orderItem.save()
+        
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+    
+    
+    return JsonResponse('item was added',safe=False)
