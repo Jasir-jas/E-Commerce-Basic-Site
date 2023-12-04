@@ -45,8 +45,8 @@
                 <div style="flex: 1;">
                     <p class="quantity">{{ item.quantity }}</p>
                     <div class="quantity">
-                        <i class="fa-solid fa-caret-up chg-quantity"></i><br>
-                        <i class="fa-solid fa-caret-down chg-quantity"></i>
+                        <i data-product="{{ item.product.id }}" data-action="add" class="fa-solid fa-caret-up chg-quantity update-cart"></i><br>
+                        <i data-product="{{ item.product.id }}" data-action="remove" class="fa-solid fa-caret-down chg-quantity update-cart"></i>
                     </div>
                 </div>
                 <div style="flex: 1;" class="fcart"><i class="fa-solid fa-indian-rupee-sign"></i> {{ item.get_total | floatformat:2 }}</div>
