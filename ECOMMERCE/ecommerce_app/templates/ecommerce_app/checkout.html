@@ -71,7 +71,8 @@
                 </div>
 
                 <div style="flex: 2;">{{ item.product.name }}</div>
-                <div style="flex: 1;"><i class="fa-solid fa-indian-rupee-sign"></i> {{ item.product.price|floatformat:2 }}</div>
+                <div style="flex: 1;"><i class="fa-solid fa-indian-rupee-sign"></i> {{ item.product.price|floatformat:2}}
+                </div>
                 <div style="flex: 1;">{{ item.quantity }}</div>
             </div>
             {% endfor %}
@@ -108,46 +109,67 @@
 <!-- paypal option -->
 <script type="text/javascript">
     let form = document.getElementById('form')
-    form.addEventListener('submit',function(e){
+    form.addEventListener('submit', function (e) {
         e.preventDefault()
         console.log('form submitted')
         document.getElementById('form-button').classList.add('hidden')
         document.getElementById('payment-info').classList.remove('hidden')
     })
 
-    document.getElementById('make-payment').addEventListener('click',(e)=>{
+    document.getElementById('make-payment').addEventListener('click', (e) => {
         submitFormData()
     })
-    function submitFormData(){
+    function submitFormData() {
         console.log('payment method clicked..')
 
         // for backend
         let userFormData = {
-            'name' : null,
-            'email' : null,
-            'total' : total,
+            'name': null,
+            'email': null,
+            'total': total,
         }
 
         let shippingInfo = {
-            'address' : null,
-            'city' : null,
-            'state' : null,
-            'zipcode' : null,
+            'address': null,
+            'city': null,
+            'state': null,
+            'zipcode': null,
         }
 
-        if(shipping != 'False'){
-            shippingInfo.address = form.name.value
-            shippingInfo.city = form.name.value
-            shippingInfo.state = form.name.value
-            shippingInfo.zipcode = form.name.value
+        if (shipping != 'False') {
+            shippingInfo.address = form.address.value
+            shippingInfo.city = form.city.value
+            shippingInfo.state = form.state.value
+            shippingInfo.zipcode = form.zipcode.value
         }
 
-        if(user =='AnonymousUser'){
+        if (user == 'AnonymousUser') {
             userFormData.name = form.name.value
             userFormData.email = form.email.value
         }
+
+        let url = '/process_order/'
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({
+                'form': userFormData,
+                'shipping': shippingInfo
+            })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('successd:', data)
+                alert('transaction completed')
+                window.location.href = "{% url 'store' %}"
+            })
     }
-    
+
+
+
 </script>
 
 
