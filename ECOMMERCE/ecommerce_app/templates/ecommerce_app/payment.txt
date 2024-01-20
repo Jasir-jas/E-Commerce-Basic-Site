@@ -1,0 +1,74 @@
+{% extends "ecommerce_app/main.html" %}
+{% load static %}
+
+{% block content %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<button id="rzp-button" class="btn btn-outline-success">Pay with Razorpay</button>
+
+
+<script>
+    let options = {
+        "key": '{{ api_key }}',
+        "amount": '{{ amount }}',  // amount in paise
+        "currency": "INR",
+        "name": "Jasir Company",
+        "description": "Test Payment",
+        "order_id": "{{ order_id }}",
+        "handler": function (response) {
+            alert(response.razorpay_payment_id);
+        },
+        "prefill": {
+            "name": "Jasir V K",
+            "email": "jasir@email.com",
+            "contact": "777777777"
+        },
+        "notes": {
+            "address": "jasi Ecommerce"
+        },
+        "theme": {
+            "color": "#F37254"
+        }
+    };
+
+    let rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button').onclick = function () {
+        rzp1.open();
+    };
+   
+</script>
+
+
+
+{% endblock content %}
+
+
+# @csrf_exempt
+# def payment(request):
+#     customer = request.user.customer
+#     order,created = Order.objects.get_or_create(customer = customer, completed=False)
+#     items = order.orderitem_set.all()
+#     cartItems = order.get_cart_items
+    
+#     if request.method == 'POST':
+#         # Initialize Razorpay client with your API Key and Secret
+#         amount = 100
+#         client = razorpay.Client(auth=(settings.RAZOR_KEY_ID,settings.RAZOR_KEY_SECRET))
+
+#         # Create a payment order
+#         data = {
+#             'amount':amount,  # amount in paise (e.g., 1000 paise = 10 INR)
+#             'currency': 'INR',
+#             'receipt': 'order_rcptid_11',
+#             'payment_capture': 1  # auto-capture payment
+#         }
+
+#         order = client.order.create(data)
+#         context = {'cartItems':cartItems, 'items':items, 'order':order, 'amount':amount*100, 'order_id': order['id'],
+#                    'api_key': settings.RAZORPAY_API_KEY}
+        
+
+#         return render(request, 'payment.html', context)
+
+#     return render(request,"ecommerce_app/payment.html")

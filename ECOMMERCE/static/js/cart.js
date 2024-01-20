@@ -8,13 +8,40 @@ for(let i = 0; i < updateBtn.length; i++){
         console.log('productId :',productId, 'action:',action);
         console.log('USER:',user);
         if(user === 'AnonymousUser'){
-            console.log('user not logged in');
+            addCookieItem(productId,action)
         }else{
             UpdateUserOrder(productId,action);
         }
     })   
 }
 
+// items are stored in cookies if user not loggin
+function addCookieItem(productId,action){
+    console.log('user is not logged in..');
+
+    if( action == 'add' ){
+        if(cart[productId] == undefined){
+            cart[productId] = {'quantity': 1}
+        }else{
+            cart[productId] ['quantity'] += 1
+    }
+    }
+
+    if( action == 'remove' ){
+        cart[productId] ['quantity'] -= 1
+
+        if( cart[productId] ['quantity'] <= 0){
+            console.log('Remove item');
+            delete cart[productId]
+        }
+    }
+    console.log('Cart:',cart);
+    document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    location.reload()
+}
+
+
+// user click button update orders..
 function UpdateUserOrder(productId,action){
     console.log('user logged in.sending data...');
 

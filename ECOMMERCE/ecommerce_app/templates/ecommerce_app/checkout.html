@@ -52,8 +52,11 @@
 
         <div class="box-element hidden" id="payment-info">
             <small>paypal Options</small>
+            <!-- <div id="pay-btn"></div> -->
 
-            <button id="make-payment" class="btn btn-outline-primary">Make Payment</button>
+            <button id="make-payment" class="btn btn-outline-primary">Order</button>
+            {% comment %} <button id="rzp-button" class="btn btn-outline-primary">
+                <a href="{% url 'payment' %}" style="text-decoration: none;">Pay Bill</a></button> {% endcomment %}
         </div>
     </div>
 
@@ -84,6 +87,41 @@
     </div>
 </div>
 
+<!-- this is for paypal -->
+<!-- <script src="https://cdn.razorpay.com/static/widget/checkout.js"></script>
+  <script>
+    let options = {
+        "key": 'rzp_test_hv4IGnuaClqjJS',
+        "amount": '50000',  // amount in paise
+        "currency": "INR",
+        "name": "Your Company Name",
+        "description": "Test Payment",
+        "order_id": "{{ order.id }}",
+        "handler": function (response) {
+            alert(response.razorpay_payment_id);
+        },
+        "prefill": {
+            "name": "Jasir V K",
+            "email": "jasir@gmail.com",
+            "contact": "77777777"
+        },
+        "notes": {
+            "address": "Kanakkassery"
+        },
+        "theme": {
+            "color": "#F37254"
+        }
+    };
+
+    let rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button').onclick = function () {
+        rzp1.open();
+    };
+</script> -->
+
+
+    
+
 <!-- hide the shipping info if not items in cart -->
 <script type=text/javascript>
     let shipping = '{{ order.shipping }}'
@@ -104,10 +142,8 @@
         // show payment if logged in user wants to buy an item that does  not require shipping
         document.getElementById('payment-info').classList.remove('hidden')
     }
-</script>
 
-<!-- paypal option -->
-<script type="text/javascript">
+    // paypal option
     let form = document.getElementById('form')
     form.addEventListener('submit', function (e) {
         e.preventDefault()
@@ -117,7 +153,7 @@
     })
 
     document.getElementById('make-payment').addEventListener('click', (e) => {
-        submitFormData()
+    submitFormData()
     })
     function submitFormData() {
         console.log('payment method clicked..')
@@ -163,14 +199,18 @@
             .then((response) => response.json())
             .then((data) => {
                 console.log('successd:', data)
-                alert('transaction completed')
+                alert('Order completed')
+
+                // after guest user purchase cart is empty or zero
+                cart = {}
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
                 window.location.href = "{% url 'store' %}"
             })
     }
 
-
-
 </script>
+
 
 
 {% endblock content %}

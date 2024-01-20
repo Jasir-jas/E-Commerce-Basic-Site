@@ -7,6 +7,7 @@ urlpatterns = [
     path("checkout/", views.checkout,name="checkout"),
     path("update_items/", views.updateItems,name="update_items"),
     path("process_order/", views.processOrder,name="process_order"),
+    # path("payment_success/", views.payment_success,name="payment_success"),
     
     
 ]
